@@ -1,4 +1,5 @@
 import { Action, Reducer } from 'redux';
+import { AppThunkAction } from '.';
 
 // -----------------
 // STATE - This defines the type of data maintained in the Redux store.
@@ -24,8 +25,29 @@ export type KnownAction = IncrementCountAction | DecrementCountAction;
 // They don't directly mutate state, but they can have external side-effects (such as loading data).
 
 export const actionCreators = {
-    increment: () => ({ type: 'INCREMENT_COUNT' } as IncrementCountAction),
-    decrement: () => ({ type: 'DECREMENT_COUNT' } as DecrementCountAction)
+
+    /*
+    action without thunk, sync version
+    */
+   //increment: () => ({ type: 'INCREMENT_COUNT' } as IncrementCountAction),
+   //decrement: () => ({ type: 'DECREMENT_COUNT' } as DecrementCountAction)
+
+
+   /*
+   action with thunk, async version
+   */
+    increment: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        const appState = getState();
+        //some aync work
+        //then finally call
+        dispatch({ type: 'INCREMENT_COUNT' } as IncrementCountAction);
+    },
+    decrement: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        const appState = getState();
+        //some aync work
+        //then finally call
+        dispatch({ type: 'DECREMENT_COUNT' } as DecrementCountAction);
+    }
 };
 
 // ----------------
